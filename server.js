@@ -109,7 +109,7 @@ Model.City.findOne({}, function(err, city) {
         city.save(function(err) {
           if (err) {
             console.log('[ERROR]')
-            console.log('Couldn\'t save city ' + cities[idx-1].name + ' (' + codigo-1 + ') of state ' + s)
+            console.log('Couldn\'t save city ' + c.name + ' (' + codigo-1 + ') of state ' + s)
           }
         })
       })
