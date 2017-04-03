@@ -46,7 +46,7 @@ app.controller('MainController', function($scope, $http) {
    */
   vm.remove = function(representative) {
     if (representative) {
-      if (confirm('Realmente deseja remover o representante >> ' + representative.nome + ' << ?') === false) {
+      if (confirm('Realmente deseja remover o representante "' + representative.nome + '"?') === false) {
         return
       }
       $http.delete('/api/representative/delete/' + representative._id).then(function(res) {
@@ -104,8 +104,8 @@ app.controller('MainController', function($scope, $http) {
 
     vm.maxContacts = representative.contato.length
 
-    vm.currentRepresentative = representative
-    vm.currentRepresentative._previousMaxContacts = vm.maxContacts
+    // Deep clone object
+    vm.currentRepresentative = JSON.parse(JSON.stringify(representative))
   }
 
   /**
@@ -164,7 +164,6 @@ app.controller('MainController', function($scope, $http) {
    */
   vm.cancelDetailedView = function() {
     vm.detailed = false
-    vm.currentRepresentative.contato.splice(vm.currentRepresentative._previousMaxContacts)
     vm.currentRepresentative = {}
     vm.maxContacts = 1
   }

@@ -52,7 +52,7 @@ app.controller('MainController', function($scope, $http) {
    */
   vm.remove = function(client) {
     if (client) {
-      if (confirm('Realmente deseja remover o representante >> ' + client.nome + ' << ?') === false) {
+      if (confirm('Realmente deseja remover o cliente "' + client.empresa.nome_fantasia + '"?') === false) {
         return
       }
       $http.delete('/api/client/delete/' + client._id).then(function(res) {
@@ -138,8 +138,8 @@ app.controller('MainController', function($scope, $http) {
 
     vm.maxContacts = client.contato.length
 
-    vm.currentClient = client
-    vm.currentClient._previousMaxContacts = vm.maxContacts
+    // Deep clone object
+    vm.currentClient = JSON.parse(JSON.stringify(client))
   }
 
   /**
@@ -212,7 +212,8 @@ app.controller('MainController', function($scope, $http) {
       entrega = _tmp.principal && _tmp.bairro && _tmp.cep && _tmp.estado && _tmp.cidade
     }
     return o.empresa.nome_fantasia && o.empresa.cnpj && o.empresa.razao_social && o.endereco.principal &&
-      o.endereco.bairro && o.endereco.cep && o.endereco.estado && o.endereco.cidade && cobranca && entrega
+      o.endereco.bairro && o.endereco.cep && o.endereco.estado && o.endereco.cidade && cobranca && entrega &&
+      o.empresa.insc_estadual
   }
 
   /**
@@ -232,7 +233,6 @@ app.controller('MainController', function($scope, $http) {
     vm.detailed = false
     vm.endereco_cobranca_needed = false
     vm.endereco_entrega_needed = false
-    vm.currentClient.contato.splice(vm.currentClient._previousMaxContacts)
     vm.currentClient = {}
     vm.maxContacts = 1
   }
