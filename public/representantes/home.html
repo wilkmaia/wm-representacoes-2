@@ -1,4 +1,4 @@
-<div class="container">
+<div>
     <button class="btn btn-primary btn-md pull-right"
             ng-click="vm.addFlag = true; vm.maxContacts = 1; vm.representative.contato = []"
             ng-hide="vm.detailed || vm.addFlag">Adicionar Novo Representante</button>
@@ -9,7 +9,7 @@
     <!----------------------------------------------------------------------------------------------------------------->
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- List representatives -->
-    <div class="container list-container">
+    <div class="list-container">
         <table class="table table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
             <th class="col-md-6 text-center">Nome</th>
             <th class="col-md-4 text-center">CPF</th>
@@ -37,7 +37,7 @@
     <!----------------------------------------------------------------------------------------------------------------->
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- Add new representative -->
-    <div class="container create-container" ng-hide="vm.detailed">
+    <div class="create-container" ng-hide="vm.detailed">
         <div class="form-horizontal" ng-hide="!vm.addFlag">
             <h2>Dados Pessoais</h2>
             <div class="form-group">
@@ -237,7 +237,7 @@
     <!----------------------------------------------------------------------------------------------------------------->
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- Show details of a representative -->
-    <div class="container details-container p-3" ng-if="vm.detailed">
+    <div class="details-container p-3" ng-if="vm.detailed">
         <div class="btn btn-primary btn-lg" ng-click="vm.cancelDetailedView()">Retornar</div>
 
         <div class="form-horizontal">
