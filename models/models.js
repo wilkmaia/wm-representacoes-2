@@ -6,6 +6,8 @@ var Schema = mongoose.Schema
 
 
 // Database schemas
+// The schemas' objects are in Brazilian Portuguese
+
 // State Schema
 var StateSchema = new Schema({
   uf: {
@@ -86,7 +88,7 @@ var ContactSchema = new Schema({
   },
   principal: {
     type: Boolean,
-    required: true
+    required: false
   }
 })
 
@@ -184,12 +186,16 @@ var RepresentativeSchema = new Schema({
     type: String,
     required: true
   },
+  senha: {
+    type: String,
+    required: true
+  },
   endereco: {
     type: AddrSchema,
     required: true
   },
   contato: {
-    type: ContactSchema,
+    type: Array,
     required: true
   },
   acesso: {

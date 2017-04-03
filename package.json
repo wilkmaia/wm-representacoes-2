@@ -1,0 +1,25 @@
+{
+  "name": "wm-representacoes-2",
+  "version": "1.0.0",
+  "description": "Solution for trade representatives.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilkmaia/wm-representacoes-2.git"
+  },
+  "author": "Wilk Maia",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wilkmaia/wm-representacoes-2/issues"
+  },
+  "homepage": "https://github.com/wilkmaia/wm-representacoes-2#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.2",
+    "morgan": "^1.8.1"
+  }
+}
