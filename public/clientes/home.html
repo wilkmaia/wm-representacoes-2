@@ -1,0 +1,747 @@
+<div class="container">
+    <button class="btn btn-primary btn-md pull-right"
+            ng-click="vm.addFlag = true; vm.maxContacts = 1; vm.client.contato = []"
+            ng-hide="vm.detailed || vm.addFlag">Adicionar Novo Cliente</button>
+
+    <button class="btn btn-danger btn-md pull-right" ng-hide="vm.detailed || !vm.addFlag"
+            ng-click="vm.addFlag=false; vm.client = {}; vm.maxContacts = 1">Cancelar</button>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- List clients -->
+    <div class="container list-container">
+        <table class="table table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
+            <th class="col-md-6 text-center">Nome Fantasia</th>
+            <th class="col-md-4 text-center">CNPJ</th>
+            <th class="text-center">Remover</th>
+
+            <!-- New row for each client -->
+            <tr class="text-center" ng-repeat="client in vm.clients">
+                <!-- Display data -->
+                <td style="cursor: pointer; vertical-align: middle;"
+                    ng-click="vm.showDetails(client)">{{client.empresa.nome_fantasia}}</td>
+                <td style="cursor: pointer; vertical-align: middle;"
+                    ng-click="vm.showDetails(client)">{{client.empresa.cnpj}}</td>
+
+                <!-- Buttons -->
+                <td class="text-center">
+                    <!-- Control -->
+                    <button class="btn btn-danger" ng-click="vm.remove(client)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- Add new client -->
+    <div class="container create-container" ng-hide="vm.detailed" ng-if="vm.addFlag">
+        <div class="form-horizontal">
+            <h2>Dados Empresariais</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="nome_fantasia">Nome Fantasia</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="nome_fantasia" class="form-control"
+                           ng-model="vm.client.empresa.nome_fantasia" placeholder="Nome Fantasia" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="razao_social">Razão Social</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="razao_social" class="form-control"
+                           ng-model="vm.client.empresa.razao_social" placeholder="Razão Social" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cnpj">CNPJ</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="cnpj" class="form-control"
+                           ng-model="vm.client.empresa.cnpj" placeholder="CNPJ" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="insc_estadual">Inscrição Estadual</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="insc_estadual" class="form-control"
+                           ng-model="vm.client.empresa.insc_estadual" placeholder="Inscrição Estadual" />
+                </div>
+            </div>
+
+            <hr>
+            <h2>Endereços</h2>
+
+            <h3>Endereço Principal</h3>
+            <div id="endereco_principal">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end.principal" class="form-control"
+                               ng-model="vm.client.endereco.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end.complemento" class="form-control"
+                               ng-model="vm.client.endereco.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end.referencia" class="form-control"
+                               ng-model="vm.client.endereco.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end.bairro" class="form-control"
+                               ng-model="vm.client.endereco.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end.cep" class="form-control"
+                               ng-model="vm.client.endereco.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="end.estado" class="form-control"
+                                ng-model="vm.client.endereco.estado"
+                                ng-change="vm.cities = vm.setCurrentState(vm.client.endereco.estado, 0)">
+                            <option ng-repeat="state in vm.states"
+                                    value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="end.cidade" class="form-control"
+                                ng-model="vm.client.endereco.cidade">
+                            <option ng-repeat="city in vm.cities"
+                                    value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Endereço de Cobrança</h3>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="checkbox" id="endereco_cobranca_needed" autocomplete="off"
+                           style="display: none;" ng-model="vm.endereco_cobranca_needed" />
+                    <div class="[ btn-group ]">
+                        <label for="endereco_cobranca_needed" class="[ btn btn-primary ]">
+                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                            <span> </span>
+                        </label>
+                        <label for="endereco_cobranca_needed" class="[ btn btn-default active ]">
+                            Utilizar endereço diferente do principal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="endereco_cobranca" ng-if="vm.endereco_cobranca_needed">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_cobranca.principal" class="form-control"
+                               ng-model="vm.client.endereco_cobranca.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end_cobranca.complemento" class="form-control"
+                               ng-model="vm.client.endereco_cobranca.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end_cobranca.referencia" class="form-control"
+                               ng-model="vm.client.endereco_cobranca.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_cobranca.bairro" class="form-control"
+                               ng-model="vm.client.endereco_cobranca.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_cobranca.cep" class="form-control"
+                               ng-model="vm.client.endereco_cobranca.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="end_cobranca.estado" class="form-control"
+                                ng-model="vm.client.endereco_cobranca.estado"
+                                ng-change="vm.setCurrentState(vm.client.endereco.estado, 1)">
+                            <option ng-repeat="state in vm.states"
+                                    value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_cobranca.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="end_cobranca.cidade" class="form-control"
+                                ng-model="vm.client.endereco_cobranca.cidade">
+                            <option ng-repeat="city in vm.cities_cobranca"
+                                    value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Endereço de Entrega</h3>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="checkbox" id="endereco_entrega_needed" autocomplete="off"
+                           style="display: none;" ng-model="vm.endereco_entrega_needed" />
+                    <div class="[ btn-group ]">
+                        <label for="endereco_entrega_needed" class="[ btn btn-primary ]">
+                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                            <span> </span>
+                        </label>
+                        <label for="endereco_entrega_needed" class="[ btn btn-default active ]">
+                            Utilizar endereço diferente do principal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="endereco_entrega" ng-if="vm.endereco_entrega_needed">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_entrega.principal" class="form-control"
+                               ng-model="vm.client.endereco_entrega.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end_entrega.complemento" class="form-control"
+                               ng-model="vm.client.endereco_entrega.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="end_entrega.referencia" class="form-control"
+                               ng-model="vm.client.endereco_entrega.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_entrega.bairro" class="form-control"
+                               ng-model="vm.client.endereco_entrega.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="end_entrega.cep" class="form-control"
+                               ng-model="vm.client.endereco_entrega.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="end_entrega.estado" class="form-control"
+                                ng-model="vm.client.endereco_entrega.estado"
+                                ng-change="vm.setCurrentState(vm.client.endereco_entrega.estado, 2)">
+                            <option ng-repeat="state in vm.states"
+                                    value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="end_entrega.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="end_entrega.cidade" class="form-control"
+                                ng-model="vm.client.endereco_entrega.cidade">
+                            <option ng-repeat="city in vm.cities_entrega"
+                                    value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div ng-repeat="n in range(1, vm.maxContacts)">
+                <div class="form-group">
+                    <h2 class="col-sm-2">Contato {{n}}</h2>
+
+                    <div class="col-sm-8" ng-if="n > 1">
+                        <div class="col-sm-1 btn btn-lg btn-danger" ng-click="vm.removeContact(vm.client, n);">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cont.{{n}}.nome">Pessoa de Contato</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="cont.{{n}}.nome" class="form-control"
+                               ng-model="vm.client.contato[n-1].nome" placeholder="Nome da pessoa para contato" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cont.{{n}}.telefone">Telefone</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="cont.{{n}}.telefone" class="form-control"
+                               ng-model="vm.client.contato[n-1].telefone" placeholder="(XX) XXXXX-XXXX" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cont.{{n}}.tipo">Tipo</label>
+                    <div class="col-sm-8">
+                        <select id="cont.{{n}}.tipo" class="form-control"
+                                ng-model="vm.client.contato[n-1].tipo">
+                            <option value=0>Fax</option>
+                            <option value=1>Fixo</option>
+                            <option value=2>Celular</option>
+                            <option value=3>Celular / WhatsApp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cont.{{n}}.email">E-mail</label>
+                    <div class="col-sm-8">
+                        <input type="email" id="cont.{{n}}.email" class="form-control"
+                               ng-model="vm.client.contato[n-1].email" placeholder="a@a.com" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="cont.{{n}}.principal" autocomplete="off"
+                               ng-model="vm.client.contato[n-1].principal" style="display: none;" />
+                        <div class="[ btn-group ]">
+                            <label for="cont.{{n}}.principal" class="[ btn btn-primary ]">
+                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                <span> </span>
+                            </label>
+                            <label for="cont.{{n}}.principal" class="[ btn btn-default active ]">
+                                Contato Principal?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="n === vm.maxContacts">
+                    <div class="col-sm-2 btn btn-lg btn-primary"
+                         ng-click="vm.maxContacts = vm.maxContacts + 1; vm.client.contato[n] = {}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-success btn-lg" ng-click="vm.add(vm.client)"
+                        ng-disabled="!vm.enableAddButton(vm.client)">Adicionar</button>
+                <button class="btn btn-danger btn-lg"
+                        ng-click="vm.addFlag=false; vm.client = {}; vm.maxContacts = 1">Cancelar</button>
+            </div>
+            <br>
+            &nbsp;
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- Show details of a client -->
+    <div class="container details-container p-3" ng-if="vm.detailed">
+        <div class="btn btn-primary btn-lg" ng-click="vm.cancelDetailedView()">Retornar</div>
+
+        <div class="form-horizontal">
+            <h2>Dados Empresariais</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.nome_fantasia">Nome Fantasia</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="cur.nome_fantasia" class="form-control"
+                           ng-model="vm.currentClient.empresa.nome_fantasia" placeholder="Nome Fantasia" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.razao_social">Razão Social</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="cur.razao_social" class="form-control"
+                           ng-model="vm.currentClient.empresa.razao_social" placeholder="Razão Social" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.cnpj">CNPJ</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="cur.cnpj" class="form-control"
+                           ng-model="vm.currentClient.empresa.cnpj" placeholder="CNPJ" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.insc_estadual">Inscrição Estadual</label>
+                <div class="col-sm-8">
+                    <input required type="text" id="cur.insc_estadual" class="form-control"
+                           ng-model="vm.currentClient.empresa.insc_estadual" placeholder="Inscrição Estadual" />
+                </div>
+            </div>
+
+            <hr>
+            <h2>Endereços</h2>
+
+            <h3>Endereço Principal</h3>
+            <div id="cur.endereco_principal">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end.principal" class="form-control"
+                               ng-model="vm.currentClient.endereco.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end.complemento" class="form-control"
+                               ng-model="vm.currentClient.endereco.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end.referencia" class="form-control"
+                               ng-model="vm.currentClient.endereco.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end.bairro" class="form-control"
+                               ng-model="vm.currentClient.endereco.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end.cep" class="form-control"
+                               ng-model="vm.currentClient.endereco.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end.estado" class="form-control"
+                                ng-model="vm.currentClient.endereco.estado"
+                                ng-change="vm.setCurrentState(vm.currentClient.endereco.estado, 0)">
+                            <option ng-repeat="state in vm.states" value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end.cidade" class="form-control"
+                                ng-model="vm.currentClient.endereco.cidade">
+                            <option ng-repeat="city in vm.cities" value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Endereço de Cobrança</h3>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="checkbox" id="cur.endereco_cobranca_needed" autocomplete="off"
+                           style="display: none;" ng-model="vm.endereco_cobranca_needed" />
+                    <div class="[ btn-group ]">
+                        <label for="cur.endereco_cobranca_needed" class="[ btn btn-primary ]">
+                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                            <span> </span>
+                        </label>
+                        <label for="cur.endereco_cobranca_needed" class="[ btn btn-default active ]">
+                            Utilizar endereço diferente do principal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="cur.endereco_cobranca" ng-if="vm.endereco_cobranca_needed">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_cobranca.principal" class="form-control"
+                               ng-model="vm.currentClient.endereco_cobranca.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end_cobranca.complemento" class="form-control"
+                               ng-model="vm.currentClient.endereco_cobranca.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end_cobranca.referencia" class="form-control"
+                               ng-model="vm.currentClient.endereco_cobranca.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_cobranca.bairro" class="form-control"
+                               ng-model="vm.currentClient.endereco_cobranca.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_cobranca.cep" class="form-control"
+                               ng-model="vm.currentClient.endereco_cobranca.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end_cobranca.estado" class="form-control"
+                                ng-model="vm.currentClient.endereco_cobranca.estado"
+                                ng-change="vm.setCurrentState(vm.currentClient.endereco_cobranca.estado, 1)">
+                            <option ng-repeat="state in vm.states"
+                                    value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_cobranca.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end_cobranca.cidade" class="form-control"
+                                ng-model="vm.currentClient.endereco_cobranca.cidade">
+                            <option ng-repeat="city in vm.cities_cobranca"
+                                    value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Endereço de Entrega</h3>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="checkbox" id="cur.endereco_entrega_needed" autocomplete="off"
+                           style="display: none;" ng-model="vm.endereco_entrega_needed" />
+                    <div class="[ btn-group ]">
+                        <label for="cur.endereco_entrega_needed" class="[ btn btn-primary ]">
+                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                            <span> </span>
+                        </label>
+                        <label for="cur.endereco_entrega_needed" class="[ btn btn-default active ]">
+                            Utilizar endereço diferente do principal
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="cur.endereco_entrega" ng-if="vm.endereco_entrega_needed">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.principal">Endereço</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_entrega.principal" class="form-control"
+                               ng-model="vm.currentClient.endereco_entrega.principal" placeholder="Endereço" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.complemento">Complemento</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end_entrega.complemento" class="form-control"
+                               ng-model="vm.currentClient.endereco_entrega.complemento" placeholder="Complemento" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.referencia">Referência</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cur.end_entrega.referencia" class="form-control"
+                               ng-model="vm.currentClient.endereco_entrega.referencia" placeholder="Ponto de Referência" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.bairro">Bairro</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_entrega.bairro" class="form-control"
+                               ng-model="vm.currentClient.endereco_entrega.bairro" placeholder="Bairro" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.cep">CEP</label>
+                    <div class="col-sm-8">
+                        <input required type="text" id="cur.end_entrega.cep" class="form-control"
+                               ng-model="vm.currentClient.endereco_entrega.cep" placeholder="00000-000" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.estado">UF</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end_entrega.estado" class="form-control"
+                                ng-model="vm.currentClient.endereco_entrega.estado"
+                                ng-change="vm.setCurrentState(vm.currentClient.endereco_entrega.estado, 2)">
+                            <option ng-repeat="state in vm.states"
+                                    value="{{state.codigo}}">{{state.uf.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.end_entrega.cidade">Cidade</label>
+                    <div class="col-sm-8">
+                        <select required id="cur.end_entrega.cidade" class="form-control"
+                                ng-model="vm.currentClient.endereco_entrega.cidade">
+                            <option ng-repeat="city in vm.cities_entrega"
+                                    value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div ng-repeat="n in range(1, vm.maxContacts)">
+                <div class="form-group">
+                    <h2 class="col-sm-2">Contato {{n}}</h2>
+
+                    <div class="col-sm-8" ng-if="n > 1">
+                        <div class="col-sm-1 btn btn-lg btn-danger" ng-click="vm.removeContact(vm.currentClient, n);">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.cont.{{n}}.nome">Pessoa de Contato</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="cur.cont.{{n}}.nome" class="form-control"
+                               ng-model="vm.currentClient.contato[n-1].nome" placeholder="Nome da pessoa para contato" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.cont.{{n}}.telefone">Telefone</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="cur.cont.{{n}}.telefone" class="form-control"
+                               ng-model="vm.currentClient.contato[n-1].telefone" placeholder="(XX) XXXXX-XXXX" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.cont.{{n}}.tipo">Tipo</label>
+                    <div class="col-sm-8">
+                        <select id="cur.cont.{{n}}.tipo" class="form-control"
+                                ng-model="vm.currentClient.contato[n-1].tipo">
+                            <option value=0>Fax</option>
+                            <option value=1>Fixo</option>
+                            <option value=2>Celular</option>
+                            <option value=3>Celular / WhatsApp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="cur.cont.{{n}}.email">E-mail</label>
+                    <div class="col-sm-8">
+                        <input type="email" id="cur.cont.{{n}}.email" class="form-control"
+                               ng-model="vm.currentClient.contato[n-1].email" placeholder="a@a.com" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <input type="checkbox" id="cur.cont.{{n}}.principal" autocomplete="off"
+                               ng-model="vm.currentClient.contato[n-1].principal" style="display: none;" />
+                        <div class="[ btn-group ]">
+                            <label for="cur.cont.{{n}}.principal" class="[ btn btn-primary ]">
+                                <span class="[ glyphicon glyphicon-ok ]"></span>
+                                <span> </span>
+                            </label>
+                            <label for="cur.cont.{{n}}.principal" class="[ btn btn-default active ]">
+                                Contato Principal?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-if="n === vm.maxContacts">
+                    <div class="col-sm-2 btn btn-lg btn-primary"
+                         ng-click="vm.maxContacts = vm.maxContacts + 1; vm.currentClient.contato[n] = {}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-success btn-lg" ng-click="vm.update(vm.currentClient)"
+                        ng-disabled="!vm.enableAddButton(vm.currentClient)">Atualizar</button>
+                <button class="btn btn-danger btn-lg" ng-click="vm.cancelDetailedView()">Cancelar</button>
+            </div>
+            <br>
+            &nbsp;
+        </div>
+    </div>
+</div>

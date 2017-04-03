@@ -1,9 +1,16 @@
 <div class="container">
+    <button class="btn btn-primary btn-md pull-right"
+            ng-click="vm.addFlag = true; vm.maxContacts = 1; vm.representative.contato = []"
+            ng-hide="vm.detailed || vm.addFlag">Adicionar Novo Representante</button>
+
+    <button class="btn btn-danger btn-md pull-right" ng-hide="vm.detailed || !vm.addFlag"
+            ng-click="vm.addFlag=false; vm.representative = {}; vm.maxContacts = 1">Cancelar</button>
+
     <!----------------------------------------------------------------------------------------------------------------->
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- List representatives -->
     <div class="container list-container">
-        <table class="table table-striped table-hover table-condensed" ng-hide="vm.detailed">
+        <table class="table table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
             <th class="col-md-6 text-center">Nome</th>
             <th class="col-md-4 text-center">CPF</th>
             <th class="text-center">Remover</th>
@@ -31,10 +38,6 @@
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- Add new representative -->
     <div class="container create-container" ng-hide="vm.detailed">
-        <button class="btn btn-primary btn-md pull-right" ng-disabled="vm.addFlag"
-                ng-click="vm.addFlag = true; vm.maxContacts = 1; vm.representative.contato = []"
-                ng-hide="vm.detailed">Adicionar Novo Representante</button>
-
         <div class="form-horizontal" ng-hide="!vm.addFlag">
             <h2>Dados Pessoais</h2>
             <div class="form-group">
@@ -223,7 +226,7 @@
             <div class="text-center">
                 <button class="btn btn-success btn-lg" ng-click="vm.add(vm.representative)"
                         ng-disabled="!vm.enableAddButton(vm.representative)">Adicionar</button>
-                <button class="btn btn-primary btn-lg"
+                <button class="btn btn-danger btn-lg"
                         ng-click="vm.addFlag=false; vm.representative = {}; vm.maxContacts = 1">Cancelar</button>
             </div>
             <br>
@@ -425,7 +428,7 @@
             <div class="text-center">
                 <button class="btn btn-success btn-lg" ng-click="vm.update(vm.currentRepresentative)"
                         ng-disabled="!vm.enableAddButton(vm.currentRepresentative)">Atualizar</button>
-                <button class="btn btn-primary btn-lg" ng-click="vm.cancelDetailedView()">Cancelar</button>
+                <button class="btn btn-danger btn-lg" ng-click="vm.cancelDetailedView()">Cancelar</button>
             </div>
             <br>
             &nbsp;

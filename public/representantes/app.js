@@ -10,12 +10,19 @@ app.controller('MainController', function($scope, $http) {
   vm.cities = []
   vm.detailed = false
 
+  /**
+   * Gets all representatives on database
+   */
   vm.getAll = function() {
     $http.get('/api/representative/').then(function(res) {
       vm.representatives = res.data
     })
   }
 
+  /**
+   * Add new representative to database
+   * @param representative
+   */
   vm.add = function(representative) {
     if (representative) {
       representative.contato.nome = representative.nome
@@ -33,6 +40,10 @@ app.controller('MainController', function($scope, $http) {
     }
   }
 
+  /**
+   * Remove representative from database
+   * @param representative
+   */
   vm.remove = function(representative) {
     if (representative) {
       if (confirm('Realmente deseja remover o representante >> ' + representative.nome + ' << ?') === false) {
@@ -49,6 +60,10 @@ app.controller('MainController', function($scope, $http) {
     }
   }
 
+  /**
+   * Update representative's data on database
+   * @param representative
+   */
   vm.update = function(representative) {
     if (representative) {
       for (var idx = 0; idx < representative.contato.length; ++idx) {
@@ -72,6 +87,10 @@ app.controller('MainController', function($scope, $http) {
     }
   }
 
+  /**
+   * Gets details of specific representative
+   * @param representative
+   */
   vm.showDetails = function(representative) {
     vm.detailed = true
     representative.senha2 = representative.senha
@@ -89,22 +108,38 @@ app.controller('MainController', function($scope, $http) {
     vm.currentRepresentative._previousMaxContacts = vm.maxContacts
   }
 
+  /**
+   * Gets list of states
+   */
   vm.getStates = function() {
     $http.get('/api/geo/states').then(function(res) {
       vm.states = res.data
     })
   }
 
+  /**
+   * Gets list of cities from specific state
+   * @param state_code
+   */
   vm.getCities = function(state_code) {
     $http.get('/api/geo/cities/' + state_code).then(function(res) {
       vm.cities = res.data
     })
   }
 
+  /**
+   * Defines current state and lists cities accordingly
+   * @param state_code
+   */
   vm.setCurrentState = function(state_code) {
     vm.getCities(state_code)
   }
 
+  /**
+   * Checks if the Add button should be enabled or not for representative "o"
+   * @param o
+   * @returns true if enable button should be enabled
+   */
   vm.enableAddButton = function(o) {
     if (o === undefined || o.contato === undefined || o.endereco === undefined)
       return false
@@ -114,23 +149,19 @@ app.controller('MainController', function($scope, $http) {
       o.endereco.estado && o.endereco.cidade && o.senha2 && o.senha === o.senha2
   }
 
+  /**
+   * Remove contact number "n" from representative "o"
+   * @param o
+   * @param n
+   */
   vm.removeContact = function(o, n) {
-    // if (n === vm.maxContacts) {
-    //   o.contato.splice(n-1, 1)
-    //   --vm.maxContacts
-    // }
-    // else {
-    //   for (var i = n; i < vm.maxContacts; ++i) {
-    //     o.contato[i-1] = o.contato[i]
-    //   }
-    //   o.contato.splice(i-1, 1)
-    //   --vm.maxContacts
-    // }
-
     o.contato.splice(n-1, 1)
     --vm.maxContacts
   }
 
+  /**
+   * Resets unsaved info from detailed view
+   */
   vm.cancelDetailedView = function() {
     vm.detailed = false
     vm.currentRepresentative.contato.splice(vm.currentRepresentative._previousMaxContacts)
@@ -138,11 +169,13 @@ app.controller('MainController', function($scope, $http) {
     vm.maxContacts = 1
   }
 
-  vm.getStates()
-  vm.getAll()
-
-
-  // Scope functions and variables
+  /**
+   * Range generator from "min" to "max" with step "step"
+   * @param min
+   * @param max
+   * @param step
+   * @returns range array
+   */
   $scope.range = function(min, max, step) {
     step = step || 1;
     var input = [];
@@ -151,6 +184,12 @@ app.controller('MainController', function($scope, $http) {
     }
     return input;
   }
+
+
+  // Initialization
+  // Get list of states and all representatives' data
+  vm.getStates()
+  vm.getAll()
 })
 
 

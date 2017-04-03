@@ -108,7 +108,7 @@ var CompanySchema = new Schema({
   },
   insc_estadual: {
     type: String,
-    required: true
+    required: false
   }
 })
 
@@ -122,7 +122,7 @@ var RepresentedSchema = new Schema({
     type: AddrSchema,
     required: true
   },
-  contatos: {
+  contato: {
     type: Array,
     required: true
   },
@@ -150,7 +150,7 @@ var ClientSchema = new Schema({
     type: AddrSchema,
     required: false
   },
-  contatos: {
+  contato: {
     type: Array,
     required: true
   }

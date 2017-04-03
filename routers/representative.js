@@ -33,19 +33,19 @@ router.post('/add', function(req, res) {
     })
   }
   else {
-    Model.Representative.find({cpf: representative.cpf}, function(err, rep) {
+    Model.Representative.find({cpf: representative.cpf}, function(err, found) {
       if (err) {
         res.status(500).send(err)
       }
       else {
-        if (rep.length !== 0) {
+        if (found.length !== 0) {
           res.status(201).send({
             status: 'failed',
             message: 'user already registered'
           })
         }
         else {
-          representative.save(function(err, rep) {
+          representative.save(function(err) {
             if (err) {
               res.status(500).send(err)
             }
@@ -129,12 +129,12 @@ router.get('/make_default', function(req, res) {
     acesso: 0
   }
 
-  Model.Representative.find({cpf: representante.cpf}, function(err, rep) {
+  Model.Representative.find({cpf: representante.cpf}, function(err, found) {
     if (err) {
       res.status(500).send(err)
     }
 
-    if (rep.length !== 0) {
+    if (found.length !== 0) {
       res.status(201).send({
         status: 'failed',
         message: 'user already in database'
