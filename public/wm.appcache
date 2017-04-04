@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 2017-04-04 v0.1.0
+*.css
+*.png
+/home.html
+/representantes/home.html
+/representatas/home.html
+/pedidos/home.html
+/clientes/home.html
+
+NETWORK:
+app.js
