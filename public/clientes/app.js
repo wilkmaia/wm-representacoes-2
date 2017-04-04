@@ -93,7 +93,7 @@ app.controller('MainController', function($scope, $http) {
           console.log(res)
         }
         else {
-          vm.getAll()
+          vm.clients[vm.currentIdx] = JSON.parse(JSON.stringify(vm.currentClient))
           vm.detailed = false
           vm.currentClient = {}
           vm.maxContacts = 1
@@ -141,6 +141,7 @@ app.controller('MainController', function($scope, $http) {
 
     // Deep clone object
     vm.currentClient = JSON.parse(JSON.stringify(client))
+    vm.currentIdx = vm.representeds.indexOf(client)
   }
 
   /**
