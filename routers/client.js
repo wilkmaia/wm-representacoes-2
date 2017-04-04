@@ -17,6 +17,31 @@ router.get('/', function(req, res) {
   })
 })
 
+// Get client given its id
+router.get('/:id', function(req, res) {
+  _id = req.params.id
+
+  Model.Client.findById(_id, function(err, client) {
+    if (err) {
+      res.status(500).send({
+        status: 'failed',
+        message: 'client not found'
+      })
+    }
+    else {
+      if (client === undefined) {
+        res.status(404).send({
+          status: 'failed',
+          message: 'client not found'
+        })
+      }
+      else {
+        res.status(201).send(client)
+      }
+    }
+  })
+})
+
 // Add new client
 router.post('/add', function(req, res) {
   data = req.body

@@ -1,0 +1,300 @@
+<div>
+    <button class="btn btn-primary btn-md pull-right"
+            ng-click="vm.addFlag = true; vm.maxMerchandise = 1; vm.order.mercadorias = []"
+            ng-hide="vm.detailed || vm.addFlag">Adicionar Novo Pedido</button>
+
+    <button class="btn btn-danger btn-md pull-right" ng-hide="vm.detailed || !vm.addFlag"
+            ng-click="vm.addFlag=false; vm.order = {}; vm.maxMerchandise = 1">Cancelar</button>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- List orders -->
+    <div class="list-container">
+        <table class="table table-bordered table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
+            <th class="col-sm-1 text-center">Número</th>
+            <th class="col-sm-5 text-center">Representada</th>
+            <th class="col-sm-5 text-center">Cliente</th>
+            <th class="col-sm-1 text-center">Remover</th>
+
+            <!-- New row for each order -->
+            <tr class="text-center" ng-repeat="order in vm.orders">
+                <!-- Display data -->
+                <td style="cursor: pointer; vertical-align: middle;"
+                    ng-click="vm.showDetails(order)">{{order.numero}}</td>
+                <td style="cursor: pointer; vertical-align: middle;"
+                    ng-click="vm.showDetails(order)">{{order.representada.empresa.nome_fantasia}}</td>
+                <td style="cursor: pointer; vertical-align: middle;"
+                    ng-click="vm.showDetails(order)">{{order.cliente.empresa.nome_fantasia}}</td>
+
+                <!-- Buttons -->
+                <td class="text-center">
+                    <!-- Control -->
+                    <button class="btn btn-danger" ng-click="vm.remove(order)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- Add new order -->
+    <div class="create-container" ng-hide="vm.detailed" ng-if="vm.addFlag">
+        <div class="form-horizontal">
+            <h2>Informações Gerais</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="representada">Representada</label>
+                <div class="col-sm-10">
+                    <select required id="representada" class="form-control" ng-model="vm.order._represented_id"
+                            ng-change="vm.getRepresented()">
+                        <option ng-repeat="represented in vm.representeds"
+                                value="{{represented._id}}">{{represented.empresa.nome_fantasia}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cliente">Cliente</label>
+                <div class="col-sm-10">
+                    <select required id="cliente" class="form-control" ng-model="vm.order._client_id"
+                            ng-change="vm.getClient()">
+                        <option ng-repeat="client in vm.clients"
+                                value="{{client._id}}">{{client.empresa.nome_fantasia}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="data">Data</label>
+                <div class="col-sm-10">
+                    <input required type="date" id="data" class="form-control" ng-model="vm.order.data" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cond_pagamento">Condições de Pagamento</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="cond_pagamento" class="form-control"
+                           ng-model="vm.order.cond_pagamento" placeholder="Condições de Pagamento" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="transportadora">Transportadora</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="transportadora" class="form-control"
+                           ng-model="vm.order.transportadora" placeholder="Forma de Transporte do Pedido" />
+                </div>
+            </div>
+
+            <hr>
+            <h2>Pedido</h2>
+            <div>
+                <div class="form-group text-center">
+                    <h4 class="col-sm-6">Descrição</h4>
+                    <h4 class="col-sm-2">Referência</h4>
+                    <h4 class="col-sm-1">Qtd</h4>
+                    <h4 class="col-sm-2">Valor Unitário</h4>
+                </div>
+                <div ng-repeat="n in range(1, vm.maxMerchandise)">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <input type="text" id="merch.{{n}}.descricao" class="form-control"
+                                   ng-model="vm.order.mercadorias[n-1].descricao" placeholder="Descrição do Item" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="merch.{{n}}.referencia" class="form-control"
+                                   ng-model="vm.order.mercadorias[n-1].referencia" placeholder="Referência" />
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="number" min="1" step="1" id="merch.{{n}}.quantidade" class="form-control"
+                                   ng-model="vm.order.mercadorias[n-1].quantidade" placeholder="1" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="number" min="0.01" step="0.01" id="merch.{{n}}.valor_unitario" class="form-control"
+                                   ng-model="vm.order.mercadorias[n-1].valor_unitario" placeholder="1" />
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="btn btn-xs btn-danger" style="vertical-align: -webkit-baseline-middle;"
+                                 ng-click="vm.removeMerchandise(vm.order, n);" ng-if="n > 1">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn btn-xs btn-primary" ng-if="n === vm.maxMerchandise"
+                         ng-click="vm.maxMerchandise = vm.maxMerchandise + 1; vm.order.mercadorias[n] = {}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <h2>Informações Complementares</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="descontos">Descontos</label>
+                <div class="col-sm-10">
+                    <input required type="number" min="0" step="1" max="100" id="descontos" class="form-control"
+                           ng-model="vm.order.descontos" placeholder="0" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="observacoes">Observações</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="observacoes" class="form-control"
+                           ng-model="vm.order.observacoes" placeholder="Observações" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="condicoes_gerais">Condições Gerais</label>
+                <div class="col-sm-10">
+                    <textarea id="condicoes_gerais" class="form-control"
+                              ng-model="vm.order.condicoes_gerais" placeholder="Condições Gerais"></textarea>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <button class="btn btn-success btn-lg" ng-click="vm.add(vm.order)"
+                        ng-disabled="!vm.enableAddButton(vm.order)">Adicionar</button>
+                <button class="btn btn-danger btn-lg"
+                        ng-click="vm.addFlag=false; vm.order = {}; vm.maxMerchandise = 1">Cancelar</button>
+            </div>
+            <br>
+            &nbsp;
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!-- Show details of a order -->
+    <div class="details-container p-3" ng-if="vm.detailed">
+        <div class="btn btn-primary btn-lg" ng-click="vm.cancelDetailedView()">Retornar</div>
+
+        <div class="form-horizontal">
+            <h2>Informações Gerais</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.representada">Representada</label>
+                <div class="col-sm-10">
+                    <select required id="cur.representada" class="form-control" ng-model="vm.currentOrder._represented_id"
+                            ng-change="vm.getRepresented()">
+                        <option ng-repeat="represented in vm.representeds"
+                                value="{{represented._id}}">{{represented.empresa.nome_fantasia}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.cliente">Cliente</label>
+                <div class="col-sm-10">
+                    <select required id="cur.cliente" class="form-control" ng-model="vm.currentOrder._client_id"
+                            ng-change="vm.getClient()">
+                        <option ng-repeat="client in vm.clients"
+                                value="{{client._id}}">{{client.empresa.nome_fantasia}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.data">Data</label>
+                <div class="col-sm-10">
+                    <input required type="date" id="cur.data" class="form-control" ng-model="vm.currentOrder.data" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.cond_pagamento">Condições de Pagamento</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="cur.cond_pagamento" class="form-control"
+                           ng-model="vm.currentOrder.cond_pagamento" placeholder="Condições de Pagamento" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.transportadora">Transportadora</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="cur.transportadora" class="form-control"
+                           ng-model="vm.currentOrder.transportadora" placeholder="Forma de Transporte do Pedido" />
+                </div>
+            </div>
+
+            <hr>
+            <h2>Pedido</h2>
+            <div>
+                <div class="form-group text-center">
+                    <h4 class="col-sm-6">Descrição</h4>
+                    <h4 class="col-sm-2">Referência</h4>
+                    <h4 class="col-sm-1">Qtd</h4>
+                    <h4 class="col-sm-2">Valor Unitário</h4>
+                </div>
+                <div ng-repeat="n in range(1, vm.maxMerchandise)">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <input type="text" id="cur.merch.{{n}}.descricao" class="form-control"
+                                   ng-model="vm.currentOrder.mercadorias[n-1].descricao" placeholder="Descrição do Item" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="cur.merch.{{n}}.referencia" class="form-control"
+                                   ng-model="vm.currentOrder.mercadorias[n-1].referencia" placeholder="Referência" />
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="number" min="1" step="1" id="cur.merch.{{n}}.quantidade" class="form-control"
+                                   ng-model="vm.currentOrder.mercadorias[n-1].quantidade" placeholder="1" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="number" min="0.01" step="0.01" id="cur.merch.{{n}}.valor_unitario" class="form-control"
+                                   ng-model="vm.currentOrder.mercadorias[n-1].valor_unitario" placeholder="1" />
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="btn btn-xs btn-danger" style="vertical-align: -webkit-baseline-middle;"
+                                 ng-click="vm.removeMerchandise(vm.currentOrder, n);" ng-if="n > 1">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn btn-xs btn-primary" ng-if="n === vm.maxMerchandise"
+                         ng-click="vm.maxMerchandise = vm.maxMerchandise + 1; vm.currentOrder.mercadorias[n] = {}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <h2>Informações Complementares</h2>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.descontos">Descontos</label>
+                <div class="col-sm-10">
+                    <input required type="number" min="0" step="1" max="100" id="cur.descontos" class="form-control"
+                           ng-model="vm.currentOrder.descontos" placeholder="0" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.observacoes">Observações</label>
+                <div class="col-sm-10">
+                    <input required type="text" id="cur.observacoes" class="form-control"
+                           ng-model="vm.currentOrder.observacoes" placeholder="Observações" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="cur.condicoes_gerais">Condições Gerais</label>
+                <div class="col-sm-10">
+                    <textarea id="cur.condicoes_gerais" class="form-control"
+                              ng-model="vm.currentOrder.condicoes_gerais" placeholder="Condições Gerais"></textarea>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <button class="btn btn-success btn-lg" ng-click="vm.add(vm.currentOrder)"
+                        ng-disabled="!vm.enableAddButton(vm.currentOrder)">Adicionar</button>
+                <button class="btn btn-danger btn-lg" ng-click="vm.cancelDetailedView()">Cancelar</button>
+            </div>
+            <br>
+            &nbsp;
+        </div>
+    </div>
+</div>

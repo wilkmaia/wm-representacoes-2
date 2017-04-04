@@ -10,10 +10,10 @@
     <!----------------------------------------------------------------------------------------------------------------->
     <!-- List representatives -->
     <div class="list-container">
-        <table class="table table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
-            <th class="col-md-6 text-center">Nome</th>
-            <th class="col-md-4 text-center">CPF</th>
-            <th class="text-center">Remover</th>
+        <table class="table table-bordered table-striped table-hover table-condensed" ng-hide="vm.detailed || vm.addFlag">
+            <th class="col-sm-7 text-center">Nome</th>
+            <th class="col-sm-4 text-center">CPF</th>
+            <th class="col-sm-1 text-center">Remover</th>
 
             <!-- New row for each representative -->
             <tr class="text-center" ng-repeat="representative in vm.representatives">
@@ -42,7 +42,7 @@
             <h2>Dados Pessoais</h2>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="name">Nome</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="name" class="form-control"
                            ng-model="vm.representative.nome" placeholder="Nome do representante" />
                 </div>
@@ -50,7 +50,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cpf">CPF</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cpf" class="form-control"
                            ng-model="vm.representative.cpf" placeholder="CPF do representante" />
                 </div>
@@ -58,7 +58,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="senha">Senha do Representante</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="password" id="senha" class="form-control"
                            ng-model="vm.representative.senha" placeholder="Senha do Representante" />
                 </div>
@@ -66,7 +66,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="senha2">Confirmação da Senha</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="password" id="senha2" class="form-control"
                            ng-model="vm.representative.senha2" placeholder="Repita a Senha" />
                 </div>
@@ -74,14 +74,14 @@
 
             <div class="form-group" ng-hide="vm.representative.senha === vm.representative.senha2">
                 <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <h5 class="text-warning">Senhas não conferem!</h5>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="acesso">Acesso</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="acesso" class="form-control"
                            ng-model="vm.representative.acesso">
                         <option value=4>Acesso aos próprios pedidos</option>
@@ -98,7 +98,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.principal">Endereço</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="end.principal" class="form-control"
                            ng-model="vm.representative.endereco.principal" placeholder="Endereço" />
                 </div>
@@ -106,7 +106,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.complemento">Complemento</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" id="end.complemento" class="form-control"
                            ng-model="vm.representative.endereco.complemento" placeholder="Complemento" />
                 </div>
@@ -114,7 +114,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.referencia">Referência</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" id="end.referencia" class="form-control"
                            ng-model="vm.representative.endereco.referencia" placeholder="Ponto de Referência" />
                 </div>
@@ -122,7 +122,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.bairro">Bairro</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="end.bairro" class="form-control"
                            ng-model="vm.representative.endereco.bairro" placeholder="Bairro" />
                 </div>
@@ -130,7 +130,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.cep">CEP</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="end.cep" class="form-control"
                            ng-model="vm.representative.endereco.cep" placeholder="00000-000" />
                 </div>
@@ -138,7 +138,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.estado">UF</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="end.estado" class="form-control"
                             ng-model="vm.representative.endereco.estado"
                             ng-change="vm.setCurrentState(vm.representative.endereco.estado)">
@@ -149,7 +149,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="end.cidade">Cidade</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="end.cidade" class="form-control"
                             ng-model="vm.representative.endereco.cidade">
                         <option ng-repeat="city in vm.cities" value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
@@ -162,7 +162,7 @@
                 <div class="form-group">
                     <h2 class="col-sm-2">Contato {{n}}</h2>
 
-                    <div class="col-sm-8" ng-if="n > 1">
+                    <div class="col-sm-10" ng-if="n > 1">
                         <div class="col-sm-1 btn btn-lg btn-danger" ng-click="vm.removeContact(vm.representative, n);">
                             <span class="glyphicon glyphicon-minus"></span>
                         </div>
@@ -171,7 +171,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cont.{{n}}.telefone">Telefone</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="tel" id="cont.{{n}}.telefone" class="form-control"
                                ng-model="vm.representative.contato[n-1].telefone" placeholder="(XX) XXXXX-XXXX" />
                     </div>
@@ -179,7 +179,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cont.{{n}}.tipo">Tipo</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select id="cont.{{n}}.tipo" class="form-control"
                                 ng-model="vm.representative.contato[n-1].tipo">
                             <option value=0>Fax</option>
@@ -192,7 +192,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cont.{{n}}.email">E-mail</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="email" id="cont.{{n}}.email" class="form-control"
                                ng-model="vm.representative.contato[n-1].email" placeholder="a@a.com" />
                     </div>
@@ -200,7 +200,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="checkbox" id="cont.{{n}}.principal" autocomplete="off"
                                ng-model="vm.representative.contato[n-1].principal" style="display: none;" />
                         <div class="[ btn-group ]">
@@ -244,7 +244,7 @@
             <h2>Dados Pessoais</h2>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.name">Nome</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cur.name" class="form-control"
                            ng-model="vm.currentRepresentative.nome" placeholder="Nome do representante" />
                 </div>
@@ -252,7 +252,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.cpf">CPF</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cur.cpf" class="form-control"
                            ng-model="vm.currentRepresentative.cpf" placeholder="CPF do representante" />
                 </div>
@@ -260,7 +260,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.senha">Senha do Representante</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="password" id="cur.senha" class="form-control"
                            ng-model="vm.currentRepresentative.senha" placeholder="Senha do Representante" />
                 </div>
@@ -268,7 +268,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.senha2">Confirmação da Senha</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="password" id="cur.senha2" class="form-control"
                            ng-model="vm.currentRepresentative.senha2" placeholder="Repita a Senha" />
                 </div>
@@ -276,14 +276,14 @@
 
             <div class="form-group" ng-hide="vm.currentRepresentative.senha === vm.currentRepresentative.senha2">
                 <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <h5 class="text-warning">Senhas não conferem!</h5>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.acesso">Acesso</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="cur.acesso" class="form-control" ng-model="vm.currentRepresentative.acesso">
                         <option value="4">Acesso aos próprios pedidos</option>
                         <option value="3">Acesso a todos os pedidos</option>
@@ -299,7 +299,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.principal">Endereço</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cur.end.principal" class="form-control"
                            ng-model="vm.currentRepresentative.endereco.principal" placeholder="Endereço" />
                 </div>
@@ -307,7 +307,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.complemento">Complemento</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" id="cur.end.complemento" class="form-control"
                            ng-model="vm.currentRepresentative.endereco.complemento" placeholder="Complemento" />
                 </div>
@@ -315,7 +315,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.referencia">Referência</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" id="cur.end.referencia" class="form-control"
                            ng-model="vm.currentRepresentative.endereco.referencia" placeholder="Ponto de Referência" />
                 </div>
@@ -323,7 +323,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.bairro">Bairro</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cur.end.bairro" class="form-control"
                            ng-model="vm.currentRepresentative.endereco.bairro" placeholder="Bairro" />
                 </div>
@@ -331,7 +331,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.cep">CEP</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input required type="text" id="cur.end.cep" class="form-control"
                            ng-model="vm.currentRepresentative.endereco.cep" placeholder="00000-000" />
                 </div>
@@ -339,7 +339,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.estado">UF</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="cur.end.estado" class="form-control"
                             ng-model="vm.currentRepresentative.endereco.estado"
                             ng-change="vm.setCurrentState(vm.currentRepresentative.endereco.estado)">
@@ -350,7 +350,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="cur.end.cidade">Cidade</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <select required id="cur.end.cidade" class="form-control"
                             ng-model="vm.currentRepresentative.endereco.cidade">
                         <option ng-repeat="city in vm.cities" value="{{city.codigo}}">{{city.nome.toUpperCase()}}</option>
@@ -363,7 +363,7 @@
                 <div class="form-group">
                     <h2 class="col-sm-2">Contato {{n}}</h2>
 
-                    <div class="col-sm-8" ng-if="n > 1">
+                    <div class="col-sm-10" ng-if="n > 1">
                         <div class="col-sm-1 btn btn-lg btn-danger"
                              ng-click="vm.removeContact(vm.currentRepresentative, n);">
                             <span class="glyphicon glyphicon-minus"></span>
@@ -373,7 +373,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cur.cont.{{n}}.telefone">Telefone</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="tel" id="cur.cont.{{n}}.telefone" class="form-control"
                                ng-model="vm.currentRepresentative.contato[n-1].telefone" placeholder="(XX) XXXXX-XXXX" />
                     </div>
@@ -381,7 +381,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cur.cont.{{n}}.tipo">Tipo</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select id="cur.cont.{{n}}.tipo" class="form-control"
                                 ng-model="vm.currentRepresentative.contato[n-1].tipo">
                             <option value=0>Fax</option>
@@ -394,7 +394,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="cur.cont.{{n}}.email">E-mail</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="email" id="cur.cont.{{n}}.email" class="form-control"
                                ng-model="vm.currentRepresentative.contato[n-1].email" placeholder="a@a.com" />
                     </div>
@@ -402,7 +402,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="checkbox" id="cur.cont.{{n}}.principal" autocomplete="off"
                                ng-model="vm.currentRepresentative.contato[n-1].principal" style="display: none;" />
                         <div class="[ btn-group ]">

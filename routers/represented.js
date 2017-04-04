@@ -17,6 +17,31 @@ router.get('/', function(req, res) {
   })
 })
 
+// Get represented given its id
+router.get('/:id', function(req, res) {
+  _id = req.params.id
+
+  Model.Represented.findById(_id, function(err, represented) {
+    if (err) {
+      res.status(500).send({
+        status: 'failed',
+        message: 'represented not found'
+      })
+    }
+    else {
+      if (represented === undefined) {
+        res.status(404).send({
+          status: 'failed',
+          message: 'represented not found'
+        })
+      }
+      else {
+        res.status(201).send(represented)
+      }
+    }
+  })
+})
+
 // Add new represented
 router.post('/add', function(req, res) {
   data = req.body

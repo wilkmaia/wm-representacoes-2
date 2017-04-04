@@ -141,7 +141,7 @@ app.controller('MainController', function($scope, $http) {
 
     // Deep clone object
     vm.currentClient = JSON.parse(JSON.stringify(client))
-    vm.currentIdx = vm.representeds.indexOf(client)
+    vm.currentIdx = vm.clients.indexOf(client)
   }
 
   /**

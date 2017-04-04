@@ -18,6 +18,31 @@ router.get('/', function(req, res) {
   })
 })
 
+// Get representative given its id
+router.get('/:id', function(req, res) {
+  _id = req.params.id
+
+  Model.Representative.findById(_id, function(err, representative) {
+    if (err) {
+      res.status(500).send({
+        status: 'failed',
+        message: 'representative not found'
+      })
+    }
+    else {
+      if (representative === undefined) {
+        res.status(404).send({
+          status: 'failed',
+          message: 'representative not found'
+        })
+      }
+      else {
+        res.status(201).send(representative)
+      }
+    }
+  })
+})
+
 // Add new representative
 router.post('/add', function(req, res) {
   data = req.body
