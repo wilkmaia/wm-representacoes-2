@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2017-04-04 v0.1.0
+# 2017-04-04 v0.1.1
 *.css
 *.png
 /home.html
@@ -7,6 +7,10 @@ CACHE MANIFEST
 /representatas/home.html
 /pedidos/home.html
 /clientes/home.html
+https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js
+https://code.angularjs.org/1.6.3/angular-route.min.js
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2
 
 NETWORK:
 app.js
