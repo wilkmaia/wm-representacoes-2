@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head manifest="wm.appcache">
+<head>
     <base href="/" />
     <title>WM Representações</title>
 
@@ -9,10 +9,10 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" type="text/css" href="local.css" />
 
-    <link rel="icon" sizes="192x192" href="../img/wm_192x192.png" />
+    <link rel="icon" sizes="192x192" href="img/wm_192x192.png" />
 
-    <link rel="apple-touch-icon" href="../img/wm_compressed.png" />
-    <link rel="apple-touch-icon-precomposed" href="../img/wm_compressed.png" />
+    <link rel="apple-touch-icon" href="img/wm_compressed.png" />
+    <link rel="apple-touch-icon-precomposed" href="img/wm_compressed.png" />
 
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,7 +51,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-route.min.js"></script>
 
-<script type="text/javascript" src="./app.js"></script>
+<script type="text/javascript" src="lib/idb.js"></script>
+<script type="text/javascript" src="app.js"></script>
 <script type="text/javascript">
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')

@@ -1,5 +1,6 @@
 {
   "name": "WM Representações",
+  "short_name": "WM",
   "icons": [
     {
       "src": "img/wm_72x72.png",
@@ -26,7 +27,9 @@
       "density": 4.0
     }
   ],
-  "start_url": "index.html",
+  "start_url": "/index.html",
   "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "orientation": "landscape"
 }

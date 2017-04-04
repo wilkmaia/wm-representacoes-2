@@ -8,7 +8,7 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
   vm.representeds = []
   vm.clients = []
   vm.detailed = false
-  vm._representative_id = '58e07988fae04c133014ea96'
+  vm._representative_id = '58e3b864554a894708ec8f5c' // TODO - LOGIN SYSTEM
   vm.spinning = true
 
 

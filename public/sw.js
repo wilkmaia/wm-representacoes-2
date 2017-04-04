@@ -1,5 +1,6 @@
-// TODO
-var cacheName = '2017-04-04-7_wm'
+var cacheName = '2017-04-04-13_wm_site'
+var dataCacheName = '2017-04-04-6_wm_data'
+
 var filesToCache = [
   '/',
   'clientes/',
@@ -21,6 +22,7 @@ var filesToCache = [
   'img/wm_96x96.png',
   'img/wm_72x72.png',
   'img/wm_compressed.png',
+  'lib/idb.js',
   '/manifest.json',
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular.min.js',
@@ -33,12 +35,13 @@ var DEBUG = function(msg) {
   console.log(msg)
 }
 
+
 self.addEventListener('install', function(e) {
   DEBUG('[SW] Install')
 
   e.waitUntil(
     caches.open(cacheName).then(function(cache) {
-      DEBUG('[SW] Caching app shell')
+      DEBUG('[SW] Caching ' + cacheName)
       return cache.addAll(filesToCache)
     })
   )
@@ -49,7 +52,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (key !== cacheName) {
+        if (key !== dataCacheName && key !== cacheName) {
           DEBUG('Removing old cache: ' + key)
           return caches.delete(key)
         }
@@ -62,12 +65,39 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   DEBUG('[SW] Fetch ' + e.request.url)
-  e.respondWith(
-    caches.match(e.request).then(function(res) {
-      return res || fetch(e.request)
-    })
-  )
-})
+  var dataUrl = '/api/'
 
+  if (e.request.url.includes(dataUrl)) {
+    found = caches.match(e.request).then(function(res) {
+      return res
+    })
+
+    update_entry = caches.open(dataCacheName).then(function(cache) {
+      return fetch(e.request).then(function(res) {
+        url_path = e.request.url.split(dataUrl)
+        cache.put(dataUrl + url_path[1], res.clone())
+        return res
+      })
+    })
+
+    e.respondWith(
+      found.then(function(res) {
+        if (res === undefined) {
+          return update_entry
+        }
+        else {
+          return res
+        }
+      })
+    )
+  }
+  else {
+    e.respondWith(
+      caches.match(e.request).then(function(res) {
+        return res || fetch(e.request)
+      })
+    )
+  }
+})
 
 
