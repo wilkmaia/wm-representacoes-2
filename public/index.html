@@ -2,22 +2,63 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
-    <script type="text/javascript" src="https://code.angularjs.org/1.6.3/angular-route.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="manifest" href="../manifest.json" />
 
-    <script type="text/javascript" src="./app.js"></script>
+    <link rel="icon" sizes="192x192" href="../img/wm_192x192.png" />
 
-    <meta charset="utf-8">
+    <link rel="apple-touch-icon" href="../img/wm_compressed.png" />
+    <link rel="apple-touch-icon-precomposed" href="../img/wm_compressed.png" />
+
+    <meta charset="utf-8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#000000">
     <title>WM Representações</title>
+
+    <style>
+        .form-group input[type="checkbox"] + .btn-group > label span {
+            width: 20px;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+            display: none;
+        }
+        .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+            display: inline-block;
+        }
+
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+            display: inline-block;
+        }
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+            display: none;
+        }
+
+        .wm-container {
+            margin-top: 0.5em;
+        }
+    </style>
 </head>
 
 
 <!-- "app" AngularJS module controls page body -->
 <body ng-app="app">
-<div class="container">
+<div class="container wm-container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12 text-center">
+            <ul class="list-inline">
+                <li><a class="list-group-item active" href="/">Início</a></li>
+                <li><a class="list-group-item active" href="/representantes/">Representantes</a></li>
+                <li><a class="list-group-item active" href="/representadas/">Representadas</a></li>
+                <li><a class="list-group-item active" href="/clientes/">Clientes</a></li>
+                <li><a class="list-group-item active" href="/pedidos/">Pedidos</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-12">
             <!-- Content will be displayed here -->
             <div ng-view></div>
         </div>
@@ -25,5 +66,9 @@
 </div>
 </body>
 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script type="text/javascript" src="https://code.angularjs.org/1.6.3/angular-route.min.js"></script>
+
+<script type="text/javascript" src="./app.js"></script>
 
 </html>

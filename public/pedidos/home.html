@@ -1,4 +1,6 @@
 <div>
+    <h1 class="col-sm-12 text-center">Pedidos</h1>
+
     <button class="btn btn-primary btn-md pull-right"
             ng-click="vm.addFlag = true; vm.maxMerchandise = 1; vm.order.mercadorias = []"
             ng-hide="vm.detailed || vm.addFlag">Adicionar Novo Pedido</button>
@@ -95,7 +97,9 @@
                     <h4 class="col-sm-6">Descrição</h4>
                     <h4 class="col-sm-2">Referência</h4>
                     <h4 class="col-sm-1">Qtd</h4>
-                    <h4 class="col-sm-2">Valor Unitário</h4>
+                    <div class="col-sm-3">
+                        <h4 class="col-sm-10">Valor Unitário</h4>
+                    </div>
                 </div>
                 <div ng-repeat="n in range(1, vm.maxMerchandise)">
                     <div class="form-group">
@@ -111,18 +115,20 @@
                             <input type="number" min="1" step="1" id="merch.{{n}}.quantidade" class="form-control"
                                    ng-model="vm.order.mercadorias[n-1].quantidade" placeholder="1" />
                         </div>
-                        <div class="col-sm-2">
-                            <input type="number" min="0.01" step="0.01" id="merch.{{n}}.valor_unitario" class="form-control"
-                                   ng-model="vm.order.mercadorias[n-1].valor_unitario" placeholder="1" />
-                        </div>
-                        <div class="col-sm-1">
-                            <div class="btn btn-xs btn-danger" style="vertical-align: -webkit-baseline-middle;"
-                                 ng-click="vm.removeMerchandise(vm.order, n);" ng-if="n > 1">
-                                <span class="glyphicon glyphicon-remove"></span>
+                        <div class="col-sm-3">
+                            <div class="col-sm-10">
+                                <input type="number" min="0.01" step="0.01" id="merch.{{n}}.valor_unitario" class="form-control"
+                                       ng-model="vm.order.mercadorias[n-1].valor_unitario" placeholder="1" />
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="btn btn-sm btn-danger" style="vertical-align: -webkit-baseline-middle;"
+                                     ng-click="vm.removeMerchandise(vm.order, n);" ng-if="n > 1">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="btn btn-xs btn-primary" ng-if="n === vm.maxMerchandise"
+                    <div class="btn btn-sm btn-primary" ng-if="n === vm.maxMerchandise"
                          ng-click="vm.maxMerchandise = vm.maxMerchandise + 1; vm.order.mercadorias[n] = {}">
                         <span class="glyphicon glyphicon-plus"></span>
                     </div>
