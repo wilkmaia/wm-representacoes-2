@@ -1,4 +1,5 @@
-var cacheName = '2017-04-04-18_wm_site'
+var cacheName = '2017-04-04-19_wm_site'
+var dataCacheName = 'wm_data_1'
 
 var filesToCache = [
   '/',
@@ -27,8 +28,9 @@ var filesToCache = [
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2'
 ]
 
+
 var DEBUG = function(msg) {
-  return // NOT DEBUGGING
+  // return // NOT DEBUGGING
   console.log(msg)
 }
 
@@ -49,7 +51,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (key !== cacheName) {
+        if (key !== cacheName && key !== dataCacheName) {
           DEBUG('Removing old cache: ' + key)
           return caches.delete(key)
         }
@@ -61,10 +63,19 @@ self.addEventListener('activate', function(e) {
 })
 
 self.addEventListener('fetch', function(e) {
-  DEBUG('[SW] Fetch ' + e.request.url)
+  var url = e.request.url
+  DEBUG('[SW] Fetch ' + url)
+  // Not an API request
   e.respondWith(
     caches.match(e.request).then(function(res) {
-      return res || fetch(e.request)
+      return res || fetch(e.request).then(function(res2) {
+          return caches.open(dataCacheName).then(function(cache) {
+            cache.put(e.request, res2.clone())
+            return res2
+          })
+        })
+    }).catch(function() {
+      return new Response('')
     })
   )
 })
