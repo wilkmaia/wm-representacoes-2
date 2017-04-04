@@ -1,4 +1,4 @@
-var cacheName = '2017-04-04-13_wm_site'
+var cacheName = '2017-04-04-14_wm_site'
 var dataCacheName = '2017-04-04-6_wm_data'
 
 var filesToCache = [
