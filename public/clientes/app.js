@@ -2,13 +2,24 @@
 var app = angular.module('app', ['ngRoute'])
 
 // Set app's controller for home.html page
-app.controller('MainController', function($scope, $http) {
+app.controller('MainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
   var vm = this
   vm.clients = []
   client = {}
   vm.states = []
   vm.cities = []
   vm.detailed = false
+  vm.spinning = true
+
+
+  /**
+   * Displays content on page
+   */
+  vm.stopSpinning = function() {
+    $timeout(function() {
+      vm.spinning = false
+    }, 100)
+  }
 
   /**
    * Gets all clients on database
@@ -16,6 +27,7 @@ app.controller('MainController', function($scope, $http) {
   vm.getAll = function() {
     $http.get('/api/client/').then(function(res) {
       vm.clients = res.data
+      vm.stopSpinning()
     })
   }
 
@@ -260,7 +272,7 @@ app.controller('MainController', function($scope, $http) {
   // Get list of states and all clients' data
   vm.getStates()
   vm.getAll()
-})
+}])
 
 
 app.config(function($routeProvider) {

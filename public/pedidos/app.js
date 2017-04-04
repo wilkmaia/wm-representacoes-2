@@ -2,16 +2,28 @@
 var app = angular.module('app', ['ngRoute'])
 
 // Set app's controller for home.html page
-app.controller('MainController', function($scope, $http) {
+app.controller('MainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
   var vm = this
   vm.orders = []
   vm.representeds = []
   vm.clients = []
   vm.detailed = false
   vm._representative_id = '58e07988fae04c133014ea96'
+  vm.spinning = true
 
 
-  // Append leading 0s to compose number up to *width* characters
+  /**
+   * Displays content on page
+   */
+  vm.stopSpinning = function() {
+    $timeout(function() {
+      vm.spinning = false
+    }, 100)
+  }
+
+  /**
+   * Append leading 0s to compose number up to *width* characters
+   */
   function pad(n, width, z) {
     z = z || '0'
     n = n + ''
@@ -24,6 +36,7 @@ app.controller('MainController', function($scope, $http) {
   vm.getAll = function() {
     $http.get('/api/order/').then(function(res) {
       vm.orders = res.data
+      vm.stopSpinning()
     })
   }
 
@@ -238,7 +251,7 @@ app.controller('MainController', function($scope, $http) {
   vm.getAllClients()
   vm.getAllRepresenteds()
   vm.getRepresentative()
-})
+}])
 
 
 app.config(function($routeProvider) {

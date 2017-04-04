@@ -54,6 +54,9 @@ app.use(morgan('dev'))
 
 // Start express' static paging
 app.use(express.static(__dirname + '/public'))
+app.use('*', function(req, res) {
+  res.sendFile(__dirname + '/public/index.html')
+})
 
 // Start server
 app.listen(SERVER_PORT, function(err) {
