@@ -1,4 +1,4 @@
-var cacheName = '2017-04-04-19_wm_site'
+var cacheName = '2017-04-04-21_wm_site'
 var dataCacheName = 'wm_data_1'
 
 var filesToCache = [
@@ -22,6 +22,7 @@ var filesToCache = [
   'img/wm_compressed.png',
   'lib/idb.js',
   '/manifest.json',
+  '/local.css',
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-route.min.js',
@@ -69,10 +70,15 @@ self.addEventListener('fetch', function(e) {
   e.respondWith(
     caches.match(e.request).then(function(res) {
       return res || fetch(e.request).then(function(res2) {
-          return caches.open(dataCacheName).then(function(cache) {
-            cache.put(e.request, res2.clone())
+          if (e.request.url.split('/api/').length <= 1) {
             return res2
-          })
+          }
+          else {
+            return caches.open(dataCacheName).then(function(cache) {
+              cache.put(e.request, res2.clone())
+              return res2
+            })
+          }
         })
     }).catch(function() {
       return new Response('')
