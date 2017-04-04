@@ -1,5 +1,4 @@
-var cacheName = '2017-04-04-16_wm_site'
-var dataCacheName = '2017-04-04-7_wm_data'
+var cacheName = '2017-04-04-18_wm_site'
 
 var filesToCache = [
   '/',
@@ -18,9 +17,7 @@ var filesToCache = [
   'representadas/app.js',
   'representantes/app.js',
   'img/wm_192x192.png',
-  'img/wm_144x144.png',
-  'img/wm_96x96.png',
-  'img/wm_72x72.png',
+  'img/wm_192x192.svg',
   'img/wm_compressed.png',
   'lib/idb.js',
   '/manifest.json',
@@ -31,7 +28,7 @@ var filesToCache = [
 ]
 
 var DEBUG = function(msg) {
-  // return // NOT DEBUGGING
+  return // NOT DEBUGGING
   console.log(msg)
 }
 
@@ -52,7 +49,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (key !== dataCacheName && key !== cacheName) {
+        if (key !== cacheName) {
           DEBUG('Removing old cache: ' + key)
           return caches.delete(key)
         }
@@ -65,39 +62,11 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   DEBUG('[SW] Fetch ' + e.request.url)
-  var dataUrl = '/api/'
-
-  if (e.request.url.includes(dataUrl)) {
-    found = caches.match(e.request).then(function(res) {
-      return res
+  e.respondWith(
+    caches.match(e.request).then(function(res) {
+      return res || fetch(e.request)
     })
-
-    update_entry = caches.open(dataCacheName).then(function(cache) {
-      return fetch(e.request).then(function(res) {
-        url_path = e.request.url.split(dataUrl)
-        cache.put(dataUrl + url_path[1], res.clone())
-        return res
-      })
-    })
-
-    e.respondWith(
-      found.then(function(res) {
-        if (res === undefined) {
-          return update_entry
-        }
-        else {
-          return res
-        }
-      })
-    )
-  }
-  else {
-    e.respondWith(
-      caches.match(e.request).then(function(res) {
-        return res || fetch(e.request)
-      })
-    )
-  }
+  )
 })
 
 
