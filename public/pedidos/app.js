@@ -21,6 +21,10 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
     }, 100)
   }
 
+  vm.setDefaultDate = function() {
+    vm.order.data = new Date()
+  }
+
   /**
    * Append leading 0s to compose number up to *width* characters
    */
@@ -103,8 +107,10 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
   vm.add = function(order) {
     if (order) {
       $http.post('/api/order/', {'representada._id': vm.order.representada._id}).then(function(res) {
-        vm.order.numero = pad(res.data.length + 1, 4)
-        vm.order.numero = vm.order.numero + '/' + String(vm.order.data.getFullYear())
+        if (vm.order.numero === undefined || vm.order.numero === '' || vm.order.numero === null) {
+          vm.order.numero = pad(res.data.length + 1, 4)
+          vm.order.numero = vm.order.numero + '/' + String(vm.order.data.getFullYear())
+        }
 
         vm.order.representante = vm.representante
 
