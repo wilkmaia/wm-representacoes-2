@@ -78,6 +78,7 @@ app.controller('MainController', function($scope, $http) {
         }
         else {
           vm.detailed = false
+          vm.getAll()
           vm.currentRepresented = {}
           vm.maxContacts = 1
         }

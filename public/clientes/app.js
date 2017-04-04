@@ -93,6 +93,7 @@ app.controller('MainController', function($scope, $http) {
           console.log(res)
         }
         else {
+          vm.getAll()
           vm.detailed = false
           vm.currentClient = {}
           vm.maxContacts = 1
