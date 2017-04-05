@@ -1,7 +1,7 @@
 {
-  "name": "YourAwesomeApplication",
-  "description": "Description",
-  "author": "Your Name",
+  "name": "WM Representações",
+  "description": "Sistema WM Representações",
+  "author": "Wilk Maia",
   "version": "0.0.1",
   "repository": "",
   "scripts": {
@@ -16,5 +16,8 @@
     "coffee-script-brunch": "~1.7.2",
     "less": "~1.5.1",
     "less-brunch": "~1.7.1"
+  },
+  "devDependencies": {
+    "git-digest-brunch": "^1.0.3"
   }
 }
