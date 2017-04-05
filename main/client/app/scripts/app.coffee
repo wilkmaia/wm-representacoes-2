@@ -1,16 +1,29 @@
-ViewOneController = require 'controllers/view1'
-ViewTwoController = require 'controllers/view2'
+HomeController = require 'controllers/home'
+RepresentantsController = require 'controllers/representants'
+RepresentedsController = require 'controllers/representeds'
+ClientsController = require 'controllers/clients'
+OrdersController = require 'controllers/orders'
 
-app = angular.module 'YourAwesomeApplication', ['ngRoute']
+
+app = angular.module 'wm-app', ['ngRoute']
 
 app.config ['$routeProvider', ($routeProvider) ->
               $routeProvider
-                .when '/view1',
-                  templateUrl: 'partials/view1.html'
-                  controller: ViewOneController
-                .when '/view2',
-                  templateUrl: 'partials/view2.html'
-                  controller: ViewTwoController
+                .when '/home',
+                  templateUrl: 'partials/home.html'
+                  controller: HomeController
+                .when '/representants',
+                  templateUrl: 'partials/representants.html'
+                  controller: RepresentantsController
+                .when '/representeds',
+                  templateUrl: 'partials/representeds.html'
+                  controller: RepresentedsController
+                .when '/clients',
+                  templateUrl: 'partials/clients.html'
+                  controller: ClientsController
+                .when '/orders',
+                  templateUrl: 'partials/orders.html'
+                  controller: OrdersController
                 .otherwise
-                  redirectTo: '/view1'
+                  redirectTo: '/home'
 ]
