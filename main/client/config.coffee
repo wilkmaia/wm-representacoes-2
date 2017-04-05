@@ -19,3 +19,9 @@ exports.config =
   modules:
     nameCleaner: (path) ->
       path.replace(/^app\/scripts\//, '')
+
+  plugins:
+    gzip:
+      paths:
+        javascript: 'js'
+        stylesheet: 'css'
