@@ -1,0 +1,40 @@
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;
+}
+
+.wm-container {
+    margin-top: 0.5em;
+}
+
+.loader {
+    /*border: 8px solid #f3f3f3; !* Light grey *!*/
+    /*border-top: 8px solid #3498db; !* Blue *!*/
+    /*border-bottom: 8px solid #3498db; !* Blue *!*/
+    border-radius: 50%;
+    width: 192px;
+    height: 192px;
+    background-image: url(img/wm_192x192.svg);
+    background-size: 192px 192px;
+    animation: spin 8s linear infinite;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
