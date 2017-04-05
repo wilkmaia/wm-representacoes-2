@@ -9,15 +9,17 @@
     "test": "brunch test"
   },
   "dependencies": {
-    "javascript-brunch": "~1.6.0",
-    "css-brunch": "~1.6.0",
-    "uglify-js-brunch": "~1.7.2",
     "clean-css-brunch": "~1.6.0",
     "coffee-script-brunch": "~1.7.2",
+    "css-brunch": "~1.6.0",
+    "digest-brunch": "^1.6.0",
+    "git-digest-brunch": "^1.0.3",
+    "idb": "^2.0.1",
+    "imageoptmizer-brunch": "0.0.6",
+    "javascript-brunch": "~1.6.0",
     "less": "~1.5.1",
-    "less-brunch": "~1.7.1"
-  },
-  "devDependencies": {
-    "git-digest-brunch": "^1.0.3"
+    "less-brunch": "~1.7.1",
+    "retina-brunch": "^1.7.2",
+    "uglify-js-brunch": "~1.7.2"
   }
 }
