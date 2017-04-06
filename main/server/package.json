@@ -1,0 +1,16 @@
+{
+  "name": "wm-representacoes-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wilk Maia",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2",
+    "http": "0.0.0",
+    "socket.io": "^1.7.3"
+  }
+}

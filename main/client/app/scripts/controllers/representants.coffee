@@ -1,6 +1,13 @@
 module.exports =
   ['$scope', ($scope) ->
-    $scope.message = "REPRESENTANTES"
+    socket = io('http://localhost:4444/')
+    $scope.message = socket.ids
+
+
+
+    $scope.$on '$destroy', () ->
+      socket.close()
+      null
 
     # Highlight navbar item
     $ ->
