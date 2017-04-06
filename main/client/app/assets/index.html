@@ -1,67 +1,69 @@
 <!doctype html>
 <html lang="en" ng-app="wm-app">
 <head>
-  <meta charset="utf-8">
-  <title>WM Representações</title>
+    <meta charset="utf-8">
+    <title>WM Representações</title>
 
-  <link rel="manifest" href="DIGEST(manifest.json)" />
-  <link rel="icon" sizes="192x192" href="DIGEST(images/wm_192x192.svg)" />
+    <link rel="manifest" href="DIGEST(manifest.json)"/>
+    <link rel="icon" sizes="192x192" href="DIGEST(images/wm_192x192.svg)"/>
 
-  <link rel="apple-touch-icon" href="DIGEST(images/wm_compressed.png)" />
-  <link rel="apple-touch-icon-precomposed" href="DIGEST(images/wm_compressed.png)" />
+    <link rel="apple-touch-icon" href="DIGEST(images/wm_compressed.png)"/>
+    <link rel="apple-touch-icon-precomposed" href="DIGEST(images/wm_compressed.png)"/>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
 
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#000000">
-  <meta name="msapplication-navbutton-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#000000">
 
-  <link rel="stylesheet" href="DIGEST(css/app.css)">
-  <link rel="stylesheet" href="DIGEST(css/vendor.css)">
+    <link rel="stylesheet" href="DIGEST(css/app.css)">
+    <link rel="stylesheet" href="DIGEST(css/vendor.css)">
 </head>
 <body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <div class="navbar-brand">WM Representações</div>
-      </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">WM Representações</div>
+        </div>
 
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li id="home"><a href="#!/home">Início</a></li>
-          <li id="representants"><a href="#!/representants">Representantes</a></li>
-          <li id="representeds"><a href="#!/representeds">Representadas</a></li>
-          <li id="clients"><a href="#!/clients">Clientes</a></li>
-          <li id="orders"><a href="#!/orders">Pedidos</a></li>
-        </ul>
-      </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="home"><a href="#!/home">Início</a></li>
+                <li id="representants"><a href="#!/representants">Representantes</a></li>
+                <li id="representeds"><a href="#!/representeds">Representadas</a></li>
+                <li id="clients"><a href="#!/clients">Clientes</a></li>
+                <li id="orders"><a href="#!/orders">Pedidos</a></li>
+            </ul>
+        </div>
 
     </div>
-  </div>
+</div>
 
-  <div class="container">
+<div class="container">
     <div ng-view></div>
 
     <hr>
     <footer>
-      <p>© WM Representações 2017</p>
+        <p>© WM Representações 2017</p>
     </footer>
-  </div>
-  </body>
+</div>
+</body>
 
-  <script src="DIGEST(js/vendor.js)"></script>
-  <script src="DIGEST(js/app.js)"></script>
-  <script>require('app')</script>
-  <script>require('socketio')</script>
+<script src="DIGEST(js/vendor.js)"></script>
+<script src="DIGEST(js/app.js)"></script>
+<script>require('app')</script>
+<script>var idb = require('idb')</script>
+<!-- socket.io (as 'io') & IndexedDB Promised (as isb) loaded -->
+
 </html>
 
